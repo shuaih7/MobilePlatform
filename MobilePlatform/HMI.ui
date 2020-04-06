@@ -1,0 +1,639 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1536</width>
+    <height>1304</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MobilePlatform</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <layout class="QVBoxLayout" name="verticalLayout_5">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLineEdit" name="line_wo">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="placeholderText">
+           <string>Work Order</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="line_pn">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="placeholderText">
+           <string>Part Number</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="line_sn">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="placeholderText">
+           <string>Serial Number</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="line_names">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <item>
+           <property name="text">
+            <string>Jaz</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Jay</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="1,5">
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_4" stretch="1,4">
+          <property name="spacing">
+           <number>10</number>
+          </property>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_3">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QPushButton" name="btn_queue">
+              <property name="text">
+               <string>QUEUE</string>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+              <property name="autoExclusive">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btn_1070x">
+              <property name="text">
+               <string>1070X</string>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
+              </property>
+              <property name="autoExclusive">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btn_1060x">
+              <property name="text">
+               <string>1060X</string>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
+              </property>
+              <property name="autoExclusive">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btn_1030x">
+              <property name="text">
+               <string>1030X</string>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
+              </property>
+              <property name="autoExclusive">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btn_cc">
+              <property name="text">
+               <string>CC-118</string>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
+              </property>
+              <property name="autoExclusive">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btn_dry">
+              <property name="text">
+               <string>DRY</string>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
+              </property>
+              <property name="autoExclusive">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QListWidget" name="image_list"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_2" stretch="20,1,2">
+          <item>
+           <widget class="QScrollArea" name="scrollArea">
+            <property name="minimumSize">
+             <size>
+              <width>1100</width>
+              <height>700</height>
+             </size>
+            </property>
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="scrollAreaWidgetContents">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>1233</width>
+               <height>904</height>
+              </rect>
+             </property>
+             <widget class="MarkLabel" name="label">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>1201</width>
+                <height>901</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </widget>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <widget class="QPushButton" name="btn_save">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Store</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btn_del">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Del</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btn_cap">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Live</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,15">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout">
+              <item>
+               <widget class="QPushButton" name="btn_text">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>Text</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="btn_draw">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>Draw</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="btn_undo">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>Undo</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QTextEdit" name="textEdit"/>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1536</width>
+     <height>36</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuSettings">
+    <property name="title">
+     <string>Settings</string>
+    </property>
+    <addaction name="actionConnectCamera"/>
+    <addaction name="actionConnect_BLE"/>
+   </widget>
+   <addaction name="menuSettings"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionConnectCamera">
+   <property name="text">
+    <string>Connect Camera</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
+   </property>
+  </action>
+  <action name="actionConnect_BLE">
+   <property name="text">
+    <string>Connect BLE</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+B</string>
+   </property>
+  </action>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MarkLabel</class>
+   <extends>QLabel</extends>
+   <header location="global">MarkLabel.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>btn_cap</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>live()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1478</x>
+     <y>1068</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1295</x>
+     <y>1071</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_save</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>648</x>
+     <y>1068</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>750</x>
+     <y>1071</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_del</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>delete()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1064</x>
+     <y>1068</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>885</x>
+     <y>1071</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>line_names</sender>
+   <signal>activated(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>get_operator_name()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1391</x>
+     <y>88</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1064</x>
+     <y>1071</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionConnectCamera</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>cameraCheck()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>647</x>
+     <y>535</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_text</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>setTextMode()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>431</x>
+     <y>1129</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>319</x>
+     <y>1195</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_draw</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>setDrawMode()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>431</x>
+     <y>1187</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>295</x>
+     <y>1197</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_undo</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>undo()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>431</x>
+     <y>1245</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>246</x>
+     <y>1162</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>image_list</sender>
+   <signal>clicked(QModelIndex)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>list_select()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>99</x>
+     <y>956</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>0</x>
+     <y>1071</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_queue</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>op_queue()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>175</x>
+     <y>133</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>206</x>
+     <y>1311</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_1070x</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>op_1070x()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>135</x>
+     <y>183</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>107</x>
+     <y>1387</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_1030x</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>op_1030x()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>218</x>
+     <y>243</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>256</x>
+     <y>1517</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_1030x</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>op_1060x()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>87</x>
+     <y>252</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>227</x>
+     <y>1595</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_dry</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>op_cc()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>112</x>
+     <y>338</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>131</x>
+     <y>1603</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_dry</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>op_dry()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>63</x>
+     <y>362</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>118</x>
+     <y>1631</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>live()</slot>
+  <slot>capture()</slot>
+  <slot>get_operator_name()</slot>
+  <slot>list_select()</slot>
+  <slot>save()</slot>
+  <slot>delete()</slot>
+  <slot>test()</slot>
+  <slot>cameraCheck()</slot>
+  <slot>setTextMode()</slot>
+  <slot>setDrawMode()</slot>
+  <slot>undo()</slot>
+  <slot>op_queue()</slot>
+  <slot>op_1070x()</slot>
+  <slot>op_1060x()</slot>
+  <slot>op_1030x()</slot>
+  <slot>op_cc()</slot>
+  <slot>op_dry()</slot>
+ </slots>
+</ui>
