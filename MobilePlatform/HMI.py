@@ -8,7 +8,8 @@ Updated on 03.30.2020
 Author: 212780558
 '''
 
-import os, sys, time, glob
+import os, sys
+import json, time, glob
 from pypylon import genicam
 from basler_camera import Basler
 from Workers import pylonWorker, bleWorker
@@ -20,7 +21,7 @@ from PyQt5.QtCore import Qt, QThread, pyqtSignal, pyqtSlot, QEvent, QSize
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QMessageBox
 
 
-ADDRESS = "98:F4:AB:16:85:A6"
+ADDRESS = "98:F4:AB:14:3E:7A"
 CMD_UUID = "73c1298a-0452-4637-89df-816e211a71db"
 STA_UUID = "352c2cb8-e15e-49ff-b0fe-3a1ed971dc1e"
 
@@ -40,8 +41,10 @@ class MainWindow(QMainWindow):
         self.pylonIsConnected = False
         self.cameraCheck(True)
         self.setTextMode()
-        
+
+        # TODO: rearrange the names ...
         self.image_name = None
+        self.full_name  = None # Used to save the markings 
         self.image_save_parent = os.path.join(os.getcwd(), "data")
         self.image_save_path = self.image_save_parent
         self.cur_operation = None
@@ -58,6 +61,7 @@ class MainWindow(QMainWindow):
         self.label.winSize = [self.scrollArea.width(), self.scrollArea.height()]
         self.label.installEventFilter(self)
         self.label.grabGesture(Qt.PinchGesture)
+        self.setMarkBtnEnabled(False)
 
         self.ble = bleWorker(ADDRESS, CMD_UUID, STA_UUID)
         self.bleIsConnected = False
@@ -114,12 +118,19 @@ class MainWindow(QMainWindow):
         self.btn_cap.setEnabled(enabled)
         self.btn_save.setEnabled(enabled)
         self.btn_del.setEnabled(enabled)
-        self.btn_text.setEnabled(enabled)
+
+    def setMarkBtnEnabled(self, enabled):
+        self.btn_undo.setEnabled(enabled)
+        self.textEdit.setEnabled(enabled)
 
     def live(self):
         if self.islive: self.capture()
         else:
             self.islive = True
+            self.jsonOperation("dump") # Dump the markings and the comments
+            self.label.mode = None     # Set the label mode to None
+            self.resetMarkings()
+            
             self.btn_cap.setText('Capture')
             self.scrollArea.setWidgetResizable(True)
             self.label.resize(self.scrollArea.size())
@@ -131,7 +142,7 @@ class MainWindow(QMainWindow):
 
     def capture(self): # Will be triggered only if the live function is called
         self.videoStart.emit(False)
-        self.image_name = 'image_' + str(self.img_index) + '.png'
+        if self.bleIsConnected: self.ble.write(b"\x03\x04\x0A\x41")
         self.islive = False
         self.btn_cap.setText('Live')
         self.able_to_store = True
@@ -141,10 +152,12 @@ class MainWindow(QMainWindow):
         #TODO: Use another thread to save the full image
         if self.islive or self.label.pixmap is None: return
         if self.able_to_store:
-            save_name = os.path.join(self.image_save_path, self.image_name)
+            self.image_name = 'image_' + str(self.img_index) + '.png'
+            self.full_name = os.path.join(self.image_save_path, self.image_name)
             self.image_list.addItem(self.image_name)
-            self.label.pixmap.save(save_name, "PNG", 100)
+            self.label.pixmap.save(self.full_name, "PNG", 100)
             self.able_to_store = False
+            self.label.mode = 'text' # After image saving, the marking buttons are enabled
 
     def delete(self):
         if self.islive: return
@@ -153,24 +166,30 @@ class MainWindow(QMainWindow):
 
         if self.image_name is None: return
         cur_file = os.path.join(self.image_save_path, self.image_name)
+        temp_name, _ = os.path.splitext(cur_file)
+        js_file = temp_name + ".json" # Get the corresponding json file
         if os.path.isfile(cur_file): os.remove(cur_file)
+        if os.path.isfile(js_file): os.remove(js_file)
         
         self.image_list.setCurrentRow(cur_index)
         cur_item = self.image_list.currentItem()
         if cur_item is None:
             self.image_name = None
+            self.full_name = None
             self.label.pixmap = None
             return
         else:
             self.image_name = cur_item.text()
             
-        img_file = os.path.join(self.image_save_path, self.image_name)
+        self.full_name = os.path.join(self.image_save_path, self.image_name)
 
-        if not os.path.isfile(img_file):
+        if not os.path.isfile(self.full_name):
             self.image_name = None
+            self.full_name = None
             self.label.pixmap = None
             return
-        self.label.pixmap = QPixmap(img_file)
+        self.label.pixmap = QPixmap(self.full_name)
+        self.jsonOperation("load")
         self.label.update()
 
     # Check if the image folders exist or not
@@ -196,6 +215,7 @@ class MainWindow(QMainWindow):
         self.setImageList()
 
     def op_queue(self):
+        
         self.image_save_path = os.path.join(self.image_save_parent, "QUEUE")
         self.cur_operation = self.btn_queue
         self.setImageList()
@@ -235,27 +255,37 @@ class MainWindow(QMainWindow):
     
     def list_select(self):
         if self.islive: return
-        #print("The current row is", self.image_list.currentRow())
+        if self.label.mode is None: self.label.mode = 'text'
+        self.jsonOperation("dump") # Dump the markings and the comments
+        self.resetMarkings() # Clear all of the previous markings
         self.image_name = self.image_list.currentItem().text()
-        img_file = os.path.join(self.image_save_path, self.image_name)
+        self.full_name = os.path.join(self.image_save_path, self.image_name)
         
-        if not os.path.isfile(img_file):
+        if not os.path.isfile(self.full_name):
             self.image_name = None
+            self.full_name = None
             self.label.pixmap = None
             return
-        self.jsonOperation(img_file)
-        self.label.pixmap = QPixmap(img_file)
+        self.jsonOperation("load") # Load the markings and the comments
+        self.label.pixmap = QPixmap(self.full_name)
         self.label.update()
 
     def setTextMode(self):
+        if self.islive or self.label.mode is None: return
         self.btn_undo.setEnabled(False)
         self.textEdit.setEnabled(True)
         self.label.mode = 'text'
 
     def setDrawMode(self):
+        if self.islive or self.label.mode is None: return
         self.btn_undo.setEnabled(True)
         self.textEdit.setEnabled(False)
         self.label.mode = 'draw'
+
+    def resetMarkings(self):
+        self.textEdit.setPlainText("")
+        self.label.points = []
+        self.label.mark_index = []
 
     def undo(self):
         self.label.undo()
@@ -264,10 +294,29 @@ class MainWindow(QMainWindow):
         operator_name = str(self.line_names.currentText())
         self.operator_name = operator_name
 
-    def jsonOperation(self, img_file):
-        temp_name, _ = os.path.splitext(img_file)
+    def jsonOperation(self, mode="load"):
+        if (self.full_name is None) or (self.islive) or (self.label.mode is None): return
+
+        temp_name, _ = os.path.splitext(self.full_name)
         json_file = temp_name + ".json"
-        
+
+        if mode == "load":
+            if not os.path.isfile(json_file): return
+            with open (json_file, "r") as f:
+                js_obj = json.load(f)
+                self.textEdit.setPlainText(js_obj["comments"])
+                self.label.points = js_obj["points"]
+                self.label.mark_index = js_obj["mark_index"]
+                self.label.update()
+
+        elif mode == "dump":
+            js_obj = {
+                    "comments":   self.textEdit.toPlainText(),
+                    "points":     self.label.points,
+                    "mark_index": self.label.mark_index
+                }
+            with open (json_file, "w") as f:
+                json.dump(js_obj, f, indent=None)
 
     def report(self):
         pass
@@ -292,9 +341,8 @@ class MainWindow(QMainWindow):
         self.scrollAreaWidgetContents.resize(self.label.size())
 
         label_width_new = self.label.width()
-        if label_width_new != label_width_old:
-            x_shift = round(pos.x() * units) - pos.x()
-            y_shift = round(pos.y() * units) - pos.y()
+        x_shift = round(pos.x() * units) - pos.x()
+        y_shift = round(pos.y() * units) - pos.y()
 
         self.scrollArea.horizontalScrollBar().setValue(
             self.scrollArea.horizontalScrollBar().value() + x_shift)
@@ -342,6 +390,9 @@ class MainWindow(QMainWindow):
         self.scrollArea.setWidgetResizable(False)
 
     def closeEvent(self, ev):
+        if not self.islive and self.label.mode is not None:
+            self.jsonOperation("dump") # Dump the markings and the comments
+            
         reply = QMessageBox.question(
             self,
             "Quit Confirm",

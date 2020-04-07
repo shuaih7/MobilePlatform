@@ -111,7 +111,7 @@ class bleWorker(object):
         return self.loop.run_until_complete(self.readAsync())
 
     def write(self, cmd):
-        return self.loop.run_until_complete(self.writeAsync())
+        return self.loop.run_until_complete(self.writeAsync(cmd))
 
     def disconnect(self):
         return self.loop.run_until_complete(self.disconnectAsync())
@@ -139,6 +139,7 @@ class bleWorker(object):
         except Exception as e:
             print(e) # This may be wirtten into a log file
             return None # No response
+        
     async def disconnectAsync(self):
         try: await self.client.connect()
         except Exception as e: print(e)

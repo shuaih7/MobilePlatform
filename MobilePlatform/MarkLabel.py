@@ -25,7 +25,7 @@ class MarkLabel(QLabel):
         self.offy = 0
 
         self.resizeNeeded = True    # Need to resize the widget in order to fit the pixmap
-        self.mode = 'text'
+        self.mode = None
         self.comments = ' '
         self.points = []            # Stores all of the marked points
         self.mark_index = []        # Index of the points for each marking
@@ -53,18 +53,18 @@ class MarkLabel(QLabel):
         else: return
 
     def mousePressEvent(self, event):
-        if self.mode == 'text': return
+        if self.mode != 'draw': return
         if len(self.mark_index):
             self.cur_mark_index = self.mark_index[-1] + 1
         self.points.append([event.x()/self.scale, event.y()/self.scale])
 
     def mouseReleaseEvent(self, event):
-        if self.mode == 'text': return
+        if self.mode != 'draw': return
         self.mark_index.append(self.cur_mark_index)
         self.cur_mark_index = 0
 
     def mouseMoveEvent(self, event):
-        if self.mode == 'text': return
+        if self.mode != 'draw': return
         self.cur_mark_index += 1
         self.points.append([event.x()/self.scale, event.y()/self.scale])
         self.update()
@@ -97,13 +97,12 @@ class MarkLabel(QLabel):
             self.transformation()  # Update the image showing offset
             painter.drawPixmap(0, 0, self.scaled_pixmap)
 
-            if self.mode == 'draw':
-                painter.setPen(QPen(Qt.green, 5, Qt.SolidLine))
-                scale = self.scale
-                for i in range(len(self.points) - 1):
-                    if (i not in self.mark_index) or len(self.mark_index)==0:
-                        line = QLineF(self.points[i][0]*scale, self.points[i][1]*scale, self.points[i+1][0]*scale, self.points[i+1][1]*scale)
-                        painter.drawLine(line)
+            painter.setPen(QPen(Qt.green, 5, Qt.SolidLine))
+            scale = self.scale
+            for i in range(len(self.points) - 1):
+                if (i not in self.mark_index) or len(self.mark_index)==0:
+                    line = QLineF(self.points[i][0]*scale, self.points[i][1]*scale, self.points[i+1][0]*scale, self.points[i+1][1]*scale)
+                    painter.drawLine(line)
             
 
                         

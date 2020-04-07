@@ -569,14 +569,14 @@
    </hints>
   </connection>
   <connection>
-   <sender>btn_1030x</sender>
+   <sender>btn_1060x</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
    <slot>op_1060x()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>87</x>
-     <y>252</y>
+     <x>143</x>
+     <y>219</y>
     </hint>
     <hint type="destinationlabel">
      <x>227</x>
@@ -585,14 +585,14 @@
    </hints>
   </connection>
   <connection>
-   <sender>btn_dry</sender>
+   <sender>btn_cc</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
    <slot>op_cc()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>112</x>
-     <y>338</y>
+     <x>143</x>
+     <y>311</y>
     </hint>
     <hint type="destinationlabel">
      <x>131</x>
