@@ -12,6 +12,7 @@ import os, sys
 import json, time, glob
 from pypylon import genicam
 from basler_camera import Basler
+from PassDialog import PassDialog
 from Workers import pylonWorker, bleWorker
 
 from PyQt5.uic import loadUi
@@ -67,6 +68,9 @@ class MainWindow(QMainWindow):
         self.bleIsConnected = False
         self.bleCheck()
         
+        self.status_label.update()
+        self.passDialog = PassDialog()
+        
 
     @pyqtSlot(bool)
     def cameraCheck(self, signal=True):
@@ -101,7 +105,9 @@ class MainWindow(QMainWindow):
 
     def bleCheck(self):
         self.bleIsConnected = self.ble.connect()
-        if self.bleIsConnected: print("BLE is connected.")
+        if self.bleIsConnected:
+            print("BLE is connected.")
+            self.status_label.bleConnected = True
         else:
             reply = QMessageBox.information(
             self,
@@ -317,6 +323,9 @@ class MainWindow(QMainWindow):
                 }
             with open (json_file, "w") as f:
                 json.dump(js_obj, f, indent=None)
+
+    def adminSet(self):
+        self.passDialog.show()
 
     def report(self):
         pass

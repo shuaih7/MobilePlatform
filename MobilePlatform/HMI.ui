@@ -87,12 +87,46 @@
           </item>
          </widget>
         </item>
+        <item>
+         <widget class="QComboBox" name="comboBox">
+          <item>
+           <property name="text">
+            <string>QUEUE</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>1070X</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>1060X</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>1030X</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>CC-118</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>DRY</string>
+           </property>
+          </item>
+         </widget>
+        </item>
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="1,5">
+       <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="2,9">
         <item>
-         <layout class="QVBoxLayout" name="verticalLayout_4" stretch="1,4">
+         <layout class="QVBoxLayout" name="verticalLayout_4" stretch="5,20,1">
           <property name="spacing">
            <number>10</number>
           </property>
@@ -187,6 +221,13 @@
           <item>
            <widget class="QListWidget" name="image_list"/>
           </item>
+          <item>
+           <widget class="StatusLabel" name="status_label">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </item>
         <item>
@@ -207,7 +248,7 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>1233</width>
+               <width>1210</width>
                <height>904</height>
               </rect>
              </property>
@@ -342,12 +383,20 @@
    </property>
    <widget class="QMenu" name="menuSettings">
     <property name="title">
-     <string>Settings</string>
+     <string>FILE</string>
     </property>
-    <addaction name="actionConnectCamera"/>
-    <addaction name="actionConnect_BLE"/>
+    <addaction name="actionOpen"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuSETTINGS">
+    <property name="title">
+     <string>SETTINGS</string>
+    </property>
+    <addaction name="actionAdminSet"/>
+    <addaction name="actionReinitialize"/>
    </widget>
    <addaction name="menuSettings"/>
+   <addaction name="menuSETTINGS"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionConnectCamera">
@@ -366,12 +415,40 @@
     <string>Ctrl+B</string>
    </property>
   </action>
+  <action name="actionOpen">
+   <property name="text">
+    <string>Open</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionReinitialize">
+   <property name="text">
+    <string>Reinitialize</string>
+   </property>
+  </action>
+  <action name="actionAdminSet">
+   <property name="text">
+    <string>Administrator Settings</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+A</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
    <class>MarkLabel</class>
    <extends>QLabel</extends>
    <header location="global">MarkLabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>StatusLabel</class>
+   <extends>QLabel</extends>
+   <header location="global">StatusLabel.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
@@ -431,28 +508,12 @@
    <slot>get_operator_name()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1391</x>
+     <x>1213</x>
      <y>88</y>
     </hint>
     <hint type="destinationlabel">
      <x>1064</x>
      <y>1071</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionConnectCamera</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>cameraCheck()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>647</x>
-     <y>535</y>
     </hint>
    </hints>
   </connection>
@@ -616,6 +677,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionAdminSet</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>adminSet()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>767</x>
+     <y>651</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>live()</slot>
@@ -635,5 +712,6 @@
   <slot>op_1030x()</slot>
   <slot>op_cc()</slot>
   <slot>op_dry()</slot>
+  <slot>adminSet()</slot>
  </slots>
 </ui>

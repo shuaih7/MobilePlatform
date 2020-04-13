@@ -143,6 +143,20 @@ class bleWorker(object):
     async def disconnectAsync(self):
         try: await self.client.connect()
         except Exception as e: print(e)
+
+
+class monitorWorker(QThread):
+    #pylonConnectRequest = pyqtSignal(bool) # Signal to be determined ...
+
+    def __init__(self, cam, ble, label, parent=None):
+        super(monitorWorker, self).__init__(parent)
+        self.cam = cam
+        self.ble = ble
+        self.label = label
+
+    def run(self):
+        pass
+        
         
 
 
