@@ -220,8 +220,7 @@ class MainWindow(QMainWindow):
         self.image_save_path = dir_queue # Image save path initialization
         self.setImageList()
 
-    def op_queue(self):
-        
+    def op_queue(self):     
         self.image_save_path = os.path.join(self.image_save_parent, "QUEUE")
         self.cur_operation = self.btn_queue
         self.setImageList()
@@ -324,11 +323,27 @@ class MainWindow(QMainWindow):
             with open (json_file, "w") as f:
                 json.dump(js_obj, f, indent=None)
 
+    def open(self):
+        pass
+
+    def exit(self):
+        self.close()
+
     def adminSet(self):
         self.passDialog.show()
 
-    def report(self):
-        pass
+    def test(self):
+        if self.basler is None or self.basler.configuration is None or self.islive: return
+        config = self.basler.configuration
+        exp_time = 0
+        for feature in config["features"]:
+            if feature["name"] == "ExposureTime":
+                feature["value"] = feature["value"] + 10000
+                if feature["value"] >= feature["max"]: feature["value"] = feature["min"]
+                exp_time = feature["value"]
+        #print(config)
+        self.basler.camera.ExposureAuto.SetValue("Off")
+        self.basler.camera.ExposureTime.SetValue(exp_time)
 
     def scrollRequest(self, delta, orientation):
         units = -delta * 0.1

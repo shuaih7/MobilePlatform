@@ -271,6 +271,13 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_2">
             <item>
+             <widget class="QPushButton" name="pushButton">
+              <property name="text">
+               <string>Config_Exp_Time</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QPushButton" name="btn_save">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -693,6 +700,54 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionExit</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>exit()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>767</x>
+     <y>651</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionOpen</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>open()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>767</x>
+     <y>651</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>test()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>536</x>
+     <y>1052</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>536</x>
+     <y>1431</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>live()</slot>
@@ -712,6 +767,8 @@
   <slot>op_1030x()</slot>
   <slot>op_cc()</slot>
   <slot>op_dry()</slot>
+  <slot>open()</slot>
+  <slot>exit()</slot>
   <slot>adminSet()</slot>
  </slots>
 </ui>

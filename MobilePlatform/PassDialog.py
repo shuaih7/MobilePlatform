@@ -25,6 +25,7 @@ class PassDialog(QDialog):
         self.passEdit.setEchoMode(2)
 
     def next(self):
+        self.remind_label.clear()
         cur_pass = self.passEdit.text()
         if cur_pass == self.password:
             self.passEdit.clear()
@@ -32,8 +33,7 @@ class PassDialog(QDialog):
             self.adminWidget.show()
         else:
             self.passEdit.clear()
-            self.remind_label.setText("the password is incorrect, please try it again.")
-            self.update()
+            self.remind_label.setText("The password is incorrect, please try it again.")
 
     def cancel(self):
         self.close()

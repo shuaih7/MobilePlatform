@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>855</width>
-    <height>555</height>
+    <width>870</width>
+    <height>575</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -26,10 +26,13 @@
    <attribute name="title">
     <string>Account Management</string>
    </attribute>
-   <layout class="QGridLayout" name="gridLayout_2">
-    <item row="0" column="0">
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="spacing">
+       <number>6</number>
+      </property>
+      <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -93,7 +96,7 @@
         </item>
        </layout>
       </item>
-      <item row="1" column="0">
+      <item>
        <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,1,8">
         <item>
          <widget class="QPushButton" name="btn_add">
@@ -140,9 +143,22 @@
    </attribute>
    <layout class="QGridLayout" name="gridLayout_3">
     <item row="0" column="0">
-     <layout class="QVBoxLayout" name="verticalLayout_5">
+     <layout class="QVBoxLayout" name="verticalLayout_5" stretch="1,5,5,5">
+      <property name="spacing">
+       <number>0</number>
+      </property>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="2,5">
+       <widget class="QLabel" name="label_fill">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="3,1,6,2">
+        <property name="spacing">
+         <number>0</number>
+        </property>
         <item>
          <widget class="QLabel" name="bright_label">
           <property name="text">
@@ -151,9 +167,23 @@
          </widget>
         </item>
         <item>
+         <widget class="QLabel" name="label_left_slider">
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;0%&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QSlider" name="bright_slider">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_right_slider">
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;100%&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
         </item>
