@@ -181,6 +181,9 @@
               <property name="checkable">
                <bool>true</bool>
               </property>
+              <property name="checked">
+               <bool>false</bool>
+              </property>
               <property name="autoExclusive">
                <bool>false</bool>
               </property>
@@ -811,6 +814,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionReinitialize</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>deviceReinitialization()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>767</x>
+     <y>651</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>live()</slot>
@@ -837,5 +856,6 @@
   <slot>getOperatorName()</slot>
   <slot>getProcess()</slot>
   <slot>listSelect()</slot>
+  <slot>deviceReinitialization()</slot>
  </slots>
 </ui>

@@ -13,7 +13,7 @@ import json, time, glob
 from pypylon import genicam
 from basler_camera import Basler
 from PassDialog import PassDialog
-from Workers import pylonWorker, bleWorker
+from Workers import pylonWorker, bleWorker, cameraMonitor, bleMonitor
 
 from PyQt5.uic import loadUi
 from PyQt5 import QtGui, QtWidgets
@@ -22,7 +22,7 @@ from PyQt5.QtCore import Qt, QThread, pyqtSignal, pyqtSlot, QEvent, QSize, QRegE
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QFileDialog, QMessageBox
 
 
-ADDRESS = "98:F4:AB:14:3E:7A"
+ADDRESS  = "98:F4:AB:18:CF:16"
 CMD_UUID = "73c1298a-0452-4637-89df-816e211a71db"
 STA_UUID = "352c2cb8-e15e-49ff-b0fe-3a1ed971dc1e"
 
@@ -34,14 +34,18 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__(parent)
         loadUi("HMI.ui", self)
 
-        ######--- Basic Parameters ---######
-        self.basler = None        
+        ######--- Device Settings ---######
+        self.basler = None      
         self.islive = False
         self.able_to_store = False
-        self.videoThread = None
-        self.pylonIsConnected = False
-        self.cameraCheck(True)
-        self.setTextMode()
+        self.camIsConnected = False
+        self.videoThread = None  
+        self.camMonitorThread = None
+        
+        self.bleIsConnected = False
+        self.ble = bleWorker(ADDRESS, CMD_UUID, STA_UUID)
+        self.bleMonitorThread = None
+        self.deviceReinitialization()
 
         # TODO: rearrange the names ...
         self.image_name = None # Pure image name without path
@@ -53,6 +57,7 @@ class MainWindow(QMainWindow):
 
         self.img_index = 0
         self.operator_name = None
+        self.setTextMode()
 
         self.label.setAttribute(Qt.WA_AcceptTouchEvents) # Enable the Touch event of the MarkLabel
         self.scrollArea.setVisible(True)
@@ -61,66 +66,76 @@ class MainWindow(QMainWindow):
         self.label.installEventFilter(self)
         self.label.grabGesture(Qt.PinchGesture)
         self.setMarkBtnEnabled(False)
-
-        self.ble = bleWorker(ADDRESS, CMD_UUID, STA_UUID)
-        self.bleIsConnected = False
-        self.bleCheck()
         
         self.status_label.update()
         self.passDialog = PassDialog()
         self.setValidator()
 
-    @pyqtSlot(bool)
-    def cameraCheck(self, signal=True):
-        if self.pylonIsConnected:
-            try: basler = Basler() # Update the current status every time the slot function is called
-            except genicam.RuntimeException: return # In case the command is mistakenly clicked twice
+    def deviceReinitialization(self):
+        self.cameraReinitialization()
+        self.bleReinitialization()
             
-            if basler.camera is not None: return # Assuming that if the camera exists, it is correctly connected
-            else: self.basler = basler
-        else: self.basler = Basler()
-        self.islive = False
+    def cameraReinitialization(self):
+        if self.camIsConnected: return
+        self.basler = Basler()
+        self.videoThread = pylonWorker(self.basler.camera, self.label)
+        self.videoStart.connect(self.videoThread.videoStatusReceiver)
         
-        if self.basler.camera is not None: # The basler camera is found
-            self.videoThread = pylonWorker(self.basler.camera, self.label)
-            self.videoStart.connect(self.videoThread.videoStatusReceiver)
+        if self.basler.camera is not None: 
+            self.camIsConnected = True
             self.setBtnEnabled(True)
-            self.pylonIsConnected = True
+            self.status_label.updateConnectStatus(cam_status=True)
+            self.camMonitorThread = cameraMonitor(self.basler.camera)
+            self.camMonitorThread.cameraStatus.connect(self.camStatusReceiver)
+            self.camMonitorThread.start()
         else:
-            reply = QMessageBox.information(
+            reply = QMessageBox.warning(
             self,
-            "Failed to connect the camera",
+            "Failed to connect the pylon camera",
             "Do you want to have another try?",
             QMessageBox.Yes | QMessageBox.No,
             QMessageBox.Yes)
 
-            self.pylonIsConnected = False
             if reply == QMessageBox.Yes:
-                self.cameraCheck()
-            else:
-                self.setBtnEnabled(False)
-
-    def bleCheck(self):
-        self.bleIsConnected = self.ble.connect()
-        if self.bleIsConnected:
-            print("BLE is connected.")
-            self.status_label.bleConnected = True
+                self.cameraReinitialization()
+    
+    def bleReinitialization(self):
+        if self.bleIsConnected: return
+        if self.ble.connect(): 
+            self.bleIsConnected = True
+            self.status_label.updateConnectStatus(ble_status=True)
+            self.bleMonitorThread = bleMonitor(self.ble)
+            self.bleMonitorThread.bleStatus.connect(self.bleStatusReceiver)
+            self.bleMonitorThread.start()
         else:
-            reply = QMessageBox.information(
+            reply = QMessageBox.warning(
             self,
-            "Failed to connect the BLE",
+            "Failed to connect the BLE device",
             "Do you want to have another try?",
             QMessageBox.Yes | QMessageBox.No,
             QMessageBox.Yes)
 
-            self.bleIsConnected = False
             if reply == QMessageBox.Yes:
-                self.bleCheck()
+                self.bleReinitialization()
+
+    @pyqtSlot(bool)
+    def camStatusReceiver(self, cam_status):
+        self.camIsConnected = cam_status
+        self.status_label.updateConnectStatus(cam_status=cam_status)
+        if self.islive: 
+            self.islive = False
+            self.btn_cap.setText('Live')
+        self.setBtnEnabled(False)
+        self.resetInputs()
+        
+    @pyqtSlot(bool)
+    def bleStatusReceiver(self, ble_status):
+        self.bleIsConnected = ble_status
+        self.status_label.updateConnectStatus(ble_status=ble_status)
 
     def setBtnEnabled(self, enabled):
         self.btn_cap.setEnabled(enabled)
-        self.btn_save.setEnabled(enabled)
-        self.btn_del.setEnabled(enabled)
+        # self.btn_save.setEnabled(enabled)
 
     def setMarkBtnEnabled(self, enabled):
         self.btn_undo.setEnabled(enabled)
@@ -145,8 +160,9 @@ class MainWindow(QMainWindow):
             self.videoThread.start()
 
     def capture(self): # Will be triggered only if the live function is called
+        if self.bleIsConnected: self.ble.write(b"\x03\x03\x12\x41")
+        #time.sleep(0.05) # Wait until the LED is ready
         self.videoStart.emit(False)
-        if self.bleIsConnected: self.ble.write(b"\x03\x04\x0A\x41")
         self.islive = False
         self.btn_cap.setText('Live')
         self.able_to_store = True
@@ -283,7 +299,6 @@ class MainWindow(QMainWindow):
     def setImageList(self):
         self.image_list.clear() # Clear all the current items before processing
         img_file_list = glob.glob(self.image_save_path + r"/*.png")
-        #print("The current path is", self.image_save_path)
         for img_file in img_file_list:
             _, fname = os.path.split(img_file)
             self.image_list.addItem(fname)

@@ -110,6 +110,9 @@ class bleWorker(object):
 
     def write(self, cmd):
         return self.loop.run_until_complete(self.writeAsync(cmd))
+        
+    def is_connected(self):
+        return self.loop.run_until_complete(self.isConnectedAsync())
 
     def disconnect(self):
         return self.loop.run_until_complete(self.disconnectAsync())
@@ -132,29 +135,55 @@ class bleWorker(object):
 
     async def writeAsync(self, cmd):
         try:
-            response = await self.client.write_gatt_char(self.sta_uuid, cmd)
+            response = await self.client.write_gatt_char(self.cmd_uuid, cmd)
             return response
         except Exception as e:
             print(e) # This may be wirtten into a log file
             return None # No response
+            
+    async def isConnectedAsync(self):
+        try: 
+            response = await self.client.is_connected()
+            return response
+        except Exception as e: 
+            print(e) # This may be wirtten into a log file
+            return False # No response
         
     async def disconnectAsync(self):
         try: await self.client.connect()
         except Exception as e: print(e)
 
 
-class monitorWorker(QThread):
-    #pylonConnectRequest = pyqtSignal(bool) # Signal to be determined ...
+class cameraMonitor(QThread):
+    cameraStatus = pyqtSignal(bool)
 
-    def __init__(self, cam, ble, label, parent=None):
-        super(monitorWorker, self).__init__(parent)
-        self.cam = cam
-        self.ble = ble
-        self.label = label
+    def __init__(self, camera, parent=None):
+        super(cameraMonitor, self).__init__(parent)
+        self.camera = camera
+        self.update_frequency = 10
 
     def run(self):
-        pass
+        if self.camera is None: return
+        sleep_time = 1.0 / float(self.update_frequency)
         
+        while not self.camera.IsCameraDeviceRemoved(): time.sleep(sleep_time)
+        if self.camera.IsCameraDeviceRemoved(): self.cameraStatus.emit(False)
+        
+
+class bleMonitor(QThread):
+    bleStatus = pyqtSignal(bool)
+
+    def __init__(self, ble, parent=None):
+        super(bleMonitor, self).__init__(parent)
+        self.ble = ble
+        self.update_frequency = 1
+
+    def run(self):
+        if self.ble is None: return
+        sleep_time = 1.0 / float(self.update_frequency)
+        
+        while self.ble.is_connected(): time.sleep(sleep_time)
+        if not self.ble.is_connected(): self.bleStatus.emit(False)
         
 
 

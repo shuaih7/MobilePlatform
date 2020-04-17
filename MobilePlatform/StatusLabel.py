@@ -3,7 +3,7 @@
 
 '''
 Created on 01.04.2020
-Updated on 04.13.2020
+Updated on 04.17.2020
 
 Author: 212780558
 '''
@@ -17,22 +17,22 @@ from PyQt5.QtWidgets import QLabel
 class StatusLabel(QLabel):
     def __init__(self, parent=None):
         super(StatusLabel, self).__init__(parent)
-        self.camConnected = False
-        self.bleConnected = False
+        self.camIsConnected = False
+        self.bleIsConnected = False
+        self.diameter = int(0.9 * min(self.width(), self.height()))
+        self.status_color = Qt.red
         
+    def updateConnectStatus(self, cam_status=None, ble_status=None):
+        if cam_status is not None: self.camIsConnected = cam_status
+        if ble_status is not None: self.bleIsConnected = ble_status
+        if self.camIsConnected and self.bleIsConnected: self.status_color = Qt.green
+        else: self.status_color = Qt.red
+        self.update()
 
     def paintEvent(self, event):
         painter = QPainter(self)
-
-        if self.camConnected and self.bleConnected: painter.setBrush(QBrush(Qt.green, Qt.SolidPattern))
-        else: painter.setBrush(QBrush(Qt.red, Qt.SolidPattern))
-        width, height = self.width(), self.height()
-        diameter = int(0.5 * min(width, height))
-        painter.drawEllipse(width*0.5, height*0.45, diameter, diameter)
-            
-
-                        
-            
-            
+        painter.setBrush(QBrush(self.status_color, Qt.SolidPattern))
+        painter.drawEllipse(self.width()*0.5, self.height()*0.45, self.diameter, self.diameter)
+                     
             
 

@@ -97,6 +97,9 @@ class Basler:
         if not os.path.exists(self.config_path): os.mkdir(self.config_path)
         self.update_device()
 
+    """
+    Update the basler pylon device, self.camrea == None if no device was found
+    """
     def update_device(self):
         devices = pylon.TlFactory.GetInstance().EnumerateDevices()
         if len(devices) > 0:
