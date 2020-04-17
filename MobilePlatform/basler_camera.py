@@ -1,18 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-'''
+"""
 Created on 03.17.2020
-Updated on 03.17.2020
+Updated on 04.15.2020
 
 Author: 212780558
-'''
+"""
 
-import os, sys, cv2, json
+import os, sys, cv2
 from pypylon import pylon
 from pypylon_opencv_viewer import BaslerOpenCVViewer
 
-
+"""
 ### Demo of the configuration matrix
 VIEWER_CONFIG_RGB_MATRIX = {
     "serial_number": "22936597",
@@ -83,75 +83,50 @@ VIEWER_CONFIG_RGB_MATRIX = {
         
     "default_user_set": "UserSet1",
 }
-
+"""
 
 class Basler:
 
     def __init__(self):
-        # Pypylon connect camera by serial number
-        self.serial_number = "0000000" # Initialize the serial number
+        self.serial_number = None # Initialize the serial number
         self.info = None
         self.camera = None
         self.viewer = None
         self.configuration = None
         self.config_path = os.path.join(os.getcwd(), "config")
         if not os.path.exists(self.config_path): os.mkdir(self.config_path)
-        self.load_configuration() # Load the configuration matrix to self.configuration
         self.update_device()
 
     def update_device(self):
-        for dev in pylon.TlFactory.GetInstance().EnumerateDevices():
-            if dev.GetSerialNumber() == self.serial_number:
-                self.info = dev
-                print("{} found!".format(self.serial_number))
-                break
+        devices = pylon.TlFactory.GetInstance().EnumerateDevices()
+        if len(devices) > 0:
+            dev = devices[0]
+            self.info = dev # Assume only one camera is connected, if more than 1, only select the first one
+            print("{} found!".format(dev.GetSerialNumber()))
         else:
-            print("Camera with {} serial number not found!".format(self.serial_number))
+            print("No camera was found, please check the USB connection.")
 
         if self.info is not None:
             self.camera = pylon.InstantCamera(pylon.TlFactory.GetInstance().CreateDevice(self.info))
             self.camera.Open()
+            self.load_configuration() # Load the default pylon configuration
             self.viewer = BaslerOpenCVViewer(self.camera)
-            self.config_camera(self.configuration) # Load the camera configurations
 
     """
-    # This is a sample configure function
-    def config_resolution(self, resolution):
-        width, height = resolution
-
-        for item in self.VIEWER_CONFIG_RGB_MATRIX['features']:
-            if item['name'] == 'Height':
-                item['value'] = height
-            elif item['name'] == 'Width':
-                item['value'] = width
-                
-        self.viewer.set_configuration(self.VIEWER_CONFIG_RGB_MATRIX)
-    """
-    
-    """
-    Load the configurations from json file and config the basics
-    """
-    def load_configuration(self):
-        config_file = os.path.join(self.config_path, "config.json")
-        if not os.path.isfile(config_file): print("Could not find the config file.")
-        else:
-            with open (config_file, "r") as f: 
-                self.configuration = json.load(f)
-                try: self.serial_number = self.configuration["serial_number"]
-                except KeyError: print("Could not find the key \"serial_number\".")
-    
-    """
-    Configure the camera from the the domestic or imported configuration matrix
+    Load the ".pfs" configuration file to config the camera
     ------
-    :param configuration: imported configuration matrix
+    :param cfg_file: File name of the ".fps" pylon configuration file.
     """
-    def config_camera(self, configuration=None):
-        if configuration is None and self.configuration is None: return
-        if configuration is None and self.configuration is not None: 
-            configuration = self.configuration
-        print("\nCamera configured.")
-        self.viewer.set_configuration(configuration)
-
+    def load_configuration(self, cfg_file=None):
+        if cfg_file is None:
+            cfg_path = os.path.join(os.getcwd(), "config")
+            cfg_file = os.path.join(cfg_path, "pylon_config.fps")
+        if not os.path.isfile:
+            print("Could not find the pylon configuration file", cfg_file)
+            return
+        try: pylon.FeaturePersistence.Load(cfg_file, self.camera.GetNodeMap())
+        except Exception as expt: print(expt)
+        
     def start_grabbing(self):
         pass        
 
@@ -161,11 +136,13 @@ class Basler:
 
 
 if __name__ == '__main__':
-    # Dump the json configuration matrix to json file
-    config_path = os.path.join(os.getcwd(), "config")
-    json_file = os.path.join(config_path, "config.json")
-    with open (json_file, "w") as f:
-       json.dump(VIEWER_CONFIG_RGB_MATRIX, f, indent=4)
-       print("Done")
+    basler = Basler()
+    import time
+    if basler.camera.IsPylonDeviceAttached(): print("Attached.")
+    while True:
+        if basler.camera.IsCameraDeviceRemoved(): 
+            print("Detected removal")
+            break
+        else: time.sleep(0.5)
     
 

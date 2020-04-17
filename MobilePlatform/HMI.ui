@@ -30,6 +30,9 @@
           <property name="text">
            <string/>
           </property>
+          <property name="maxLength">
+           <number>6</number>
+          </property>
           <property name="placeholderText">
            <string>Work Order</string>
           </property>
@@ -45,6 +48,12 @@
           </property>
           <property name="text">
            <string/>
+          </property>
+          <property name="maxLength">
+           <number>10</number>
+          </property>
+          <property name="frame">
+           <bool>true</bool>
           </property>
           <property name="placeholderText">
            <string>Part Number</string>
@@ -62,19 +71,27 @@
           <property name="text">
            <string/>
           </property>
+          <property name="maxLength">
+           <number>8</number>
+          </property>
           <property name="placeholderText">
            <string>Serial Number</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="line_names">
+         <widget class="QComboBox" name="line_name">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <item>
+           <property name="text">
+            <string>-- Operator --</string>
+           </property>
+          </item>
           <item>
            <property name="text">
             <string>Jaz</string>
@@ -88,7 +105,12 @@
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="comboBox">
+         <widget class="QComboBox" name="line_process">
+          <item>
+           <property name="text">
+            <string>-- Process --</string>
+           </property>
+          </item>
           <item>
            <property name="text">
             <string>QUEUE</string>
@@ -144,10 +166,10 @@
                <bool>true</bool>
               </property>
               <property name="checked">
-               <bool>true</bool>
+               <bool>false</bool>
               </property>
               <property name="autoExclusive">
-               <bool>true</bool>
+               <bool>false</bool>
               </property>
              </widget>
             </item>
@@ -160,7 +182,7 @@
                <bool>true</bool>
               </property>
               <property name="autoExclusive">
-               <bool>true</bool>
+               <bool>false</bool>
               </property>
              </widget>
             </item>
@@ -173,7 +195,7 @@
                <bool>true</bool>
               </property>
               <property name="autoExclusive">
-               <bool>true</bool>
+               <bool>false</bool>
               </property>
              </widget>
             </item>
@@ -186,7 +208,7 @@
                <bool>true</bool>
               </property>
               <property name="autoExclusive">
-               <bool>true</bool>
+               <bool>false</bool>
               </property>
              </widget>
             </item>
@@ -199,7 +221,7 @@
                <bool>true</bool>
               </property>
               <property name="autoExclusive">
-               <bool>true</bool>
+               <bool>false</bool>
               </property>
              </widget>
             </item>
@@ -212,7 +234,7 @@
                <bool>true</bool>
               </property>
               <property name="autoExclusive">
-               <bool>true</bool>
+               <bool>false</bool>
               </property>
              </widget>
             </item>
@@ -270,13 +292,6 @@
           </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_2">
-            <item>
-             <widget class="QPushButton" name="pushButton">
-              <property name="text">
-               <string>Config_Exp_Time</string>
-              </property>
-             </widget>
-            </item>
             <item>
              <widget class="QPushButton" name="btn_save">
               <property name="sizePolicy">
@@ -509,22 +524,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>line_names</sender>
-   <signal>activated(QString)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>get_operator_name()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>1213</x>
-     <y>88</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>1064</x>
-     <y>1071</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>btn_text</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
@@ -569,22 +568,6 @@
     <hint type="destinationlabel">
      <x>246</x>
      <y>1162</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>image_list</sender>
-   <signal>clicked(QModelIndex)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>list_select()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>99</x>
-     <y>956</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>0</x>
-     <y>1071</y>
     </hint>
    </hints>
   </connection>
@@ -733,18 +716,98 @@
    </hints>
   </connection>
   <connection>
-   <sender>pushButton</sender>
-   <signal>clicked()</signal>
+   <sender>line_wo</sender>
+   <signal>textChanged(QString)</signal>
    <receiver>MainWindow</receiver>
-   <slot>test()</slot>
+   <slot>getWorkOrder()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>536</x>
-     <y>1052</y>
+     <x>252</x>
+     <y>82</y>
     </hint>
     <hint type="destinationlabel">
-     <x>536</x>
-     <y>1431</y>
+     <x>315</x>
+     <y>1631</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>line_pn</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>getPartNumber()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>472</x>
+     <y>86</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>477</x>
+     <y>1447</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>line_sn</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>getSerialNumber()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>785</x>
+     <y>79</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>741</x>
+     <y>1623</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>line_name</sender>
+   <signal>activated(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>getOperatorName()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1121</x>
+     <y>72</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1014</x>
+     <y>1405</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>line_process</sender>
+   <signal>activated(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>getProcess()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1355</x>
+     <y>78</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1312</x>
+     <y>1410</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>image_list</sender>
+   <signal>activated(QModelIndex)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>listSelect()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>91</x>
+     <y>1137</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>91</x>
+     <y>1336</y>
     </hint>
    </hints>
   </connection>
@@ -752,8 +815,6 @@
  <slots>
   <slot>live()</slot>
   <slot>capture()</slot>
-  <slot>get_operator_name()</slot>
-  <slot>list_select()</slot>
   <slot>save()</slot>
   <slot>delete()</slot>
   <slot>test()</slot>
@@ -770,5 +831,11 @@
   <slot>open()</slot>
   <slot>exit()</slot>
   <slot>adminSet()</slot>
+  <slot>getWorkOrder()</slot>
+  <slot>getPartNumber()</slot>
+  <slot>getSerialNumber()</slot>
+  <slot>getOperatorName()</slot>
+  <slot>getProcess()</slot>
+  <slot>listSelect()</slot>
  </slots>
 </ui>

@@ -46,8 +46,6 @@ class videoWorker(QThread):
 
 
 class pylonWorker(QThread):
-    pylonConnectRequest = pyqtSignal(bool)
-
     def __init__(self, camera, label, parent=None):
         super(pylonWorker, self).__init__(parent)
         self.videoStart = False
@@ -90,8 +88,8 @@ class pylonWorker(QThread):
 
                 grab_result.Release()
                 
-        except genicam.GenericException:
-            self.pylonConnectRequest.emit(True)
+        except genicam.GenericException as expt:
+            self.videoStart = False
         finally:
             self._camera.StopGrabbing()
 

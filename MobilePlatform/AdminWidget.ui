@@ -20,7 +20,7 @@
    <string>Administrator Settings</string>
   </property>
   <property name="currentIndex">
-   <number>1</number>
+   <number>2</number>
   </property>
   <widget class="QWidget" name="tab_account">
    <attribute name="title">
@@ -239,8 +239,41 @@
    <attribute name="title">
     <string>Camera Settings</string>
    </attribute>
+   <widget class="QPushButton" name="btn_cfgcam">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>140</y>
+      <width>581</width>
+      <height>151</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Load Camera Settings from Directory</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>btn_cfgcam</sender>
+   <signal>clicked()</signal>
+   <receiver>TabWidget</receiver>
+   <slot>configCamera()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>359</x>
+     <y>228</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>358</x>
+     <y>727</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>configCamera()</slot>
+ </slots>
 </ui>
