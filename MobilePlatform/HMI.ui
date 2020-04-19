@@ -92,16 +92,6 @@
             <string>-- Operator --</string>
            </property>
           </item>
-          <item>
-           <property name="text">
-            <string>Jaz</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Jay</string>
-           </property>
-          </item>
          </widget>
         </item>
         <item>
@@ -444,15 +434,24 @@
    <property name="text">
     <string>Open</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
   </action>
   <action name="actionExit">
    <property name="text">
     <string>Exit</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
+   </property>
   </action>
   <action name="actionReinitialize">
    <property name="text">
     <string>Reinitialize</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
    </property>
   </action>
   <action name="actionAdminSet">

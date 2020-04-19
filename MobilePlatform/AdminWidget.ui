@@ -20,7 +20,7 @@
    <string>Administrator Settings</string>
   </property>
   <property name="currentIndex">
-   <number>2</number>
+   <number>0</number>
   </property>
   <widget class="QWidget" name="tab_account">
    <attribute name="title">
@@ -44,23 +44,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QListWidget" name="op_list">
-            <item>
-             <property name="text">
-              <string>Jack</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Jon</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Kate</string>
-             </property>
-            </item>
-           </widget>
+           <widget class="QListWidget" name="op_list"/>
           </item>
          </layout>
         </item>
@@ -74,23 +58,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QListWidget" name="level_list">
-            <item>
-             <property name="text">
-              <string>User</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>User</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Administrator</string>
-             </property>
-            </item>
-           </widget>
+           <widget class="QListWidget" name="level_list"/>
           </item>
          </layout>
         </item>
@@ -272,8 +240,59 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>btn_add</sender>
+   <signal>clicked()</signal>
+   <receiver>TabWidget</receiver>
+   <slot>addUser()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>63</x>
+     <y>538</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>66</x>
+     <y>662</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_delete</sender>
+   <signal>clicked()</signal>
+   <receiver>TabWidget</receiver>
+   <slot>delUser()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>165</x>
+     <y>543</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>166</x>
+     <y>617</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>op_list</sender>
+   <signal>itemChanged(QListWidgetItem*)</signal>
+   <receiver>TabWidget</receiver>
+   <slot>updateOperatorList()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>309</x>
+     <y>418</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>849</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>configCamera()</slot>
+  <slot>addUser()</slot>
+  <slot>delUser()</slot>
+  <slot>updateOperatorList()</slot>
  </slots>
 </ui>

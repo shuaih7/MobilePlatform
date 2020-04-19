@@ -3,7 +3,7 @@
 
 """
 Created on 03.17.2020
-Updated on 04.15.2020
+Updated on 04.19.2020
 
 Author: 212780558
 """
@@ -69,6 +69,11 @@ class MainWindow(QMainWindow):
         
         self.status_label.update()
         self.passDialog = PassDialog()
+        self.passDialog.adminWidget.camConfigRequest.connect(self.camConfigReceiver)
+        self.passDialog.adminWidget.bleSettingRequest.connect(self.updateBleSettings)
+        self.passDialog.adminWidget.opListUpdateRequest.connect(self.updateOperatorList)
+        self.config_matrix = None
+        self.loadConfigurations()
         self.setValidator()
 
     def deviceReinitialization(self):
@@ -132,6 +137,40 @@ class MainWindow(QMainWindow):
     def bleStatusReceiver(self, ble_status):
         self.bleIsConnected = ble_status
         self.status_label.updateConnectStatus(ble_status=ble_status)
+        
+    @pyqtSlot(str)
+    def camConfigReceiver(self, config_file):
+        if not self.camIsConnected: return
+        self.basler.load_configuration(cfg_file=config_file)
+        
+    def loadConfigurations(self):
+        config_file = os.path.join(os.path.join(os.getcwd(), "config"), "config.json")
+        with open (config_file, "r") as f: self.config_matrix = json.load(f)
+
+        operator_names = self.config_matrix["Names"]
+        operator_levels = self.config_matrix["Levels"]
+        for name in operator_names: self.line_name.addItem(name)
+        self.passDialog.adminWidget.initConfigurations(self.config_matrix)
+        
+    @pyqtSlot(list)
+    def updateOperatorList(self, operator_info):
+        self.line_name.clear()
+        self.line_name.addItem("-- Operator --")
+        for name in operator_info[0]: self.line_name.addItem(name)
+        if self.config_matrix is not None: 
+            self.config_matrix["Names"] = operator_info[0]
+            self.config_matrix["Levels"] = operator_info[1]
+            
+    @pyqtSlot(int)
+    def updateBleSettings(self, index):
+        cfg_type = index // 1000
+        cfg_cmd  = index % 1000
+        if cfg_type == 0:
+            pass
+        elif cfg_type == 1:
+            pass
+        elif cfg_type == 2:
+            pass
 
     def setBtnEnabled(self, enabled):
         self.btn_cap.setEnabled(enabled)
@@ -466,24 +505,6 @@ class MainWindow(QMainWindow):
             with open (json_file, "w") as f:
                 json.dump(js_obj, f, indent=None)
 
-    """
-    def test(self):
-        if self.basler is None or self.basler.configuration is None or self.islive: return
-        config = self.basler.configuration
-        exp_time = 0
-        for feature in config["features"]:
-            if feature["name"] == "ExposureTime":
-                feature["value"] = feature["value"] + 10000
-                if feature["value"] >= feature["max"]: feature["value"] = feature["min"]
-                exp_time = feature["value"]
-        #print(config)
-        #self.basler.camera.ExposureAuto.SetValue("Off")
-        #self.basler.camera.ExposureTime.SetValue(exp_time)
-        #self.basler.camera.AcquisitionFrameRateEnabled.SetValue(True)
-        #self.basler.camera.AcquisitionFrameRate.SetValue(40.0)
-        print("The current frame rate is", self.basler.camera.ResultingFrameRate.GetValue())
-    """
-
     def scrollRequest(self, delta, orientation):
         units = -delta * 0.1
         if orientation == Qt.Horizontal:
@@ -561,7 +582,11 @@ class MainWindow(QMainWindow):
             QMessageBox.Yes | QMessageBox.No,
             QMessageBox.No)
 
-        if reply == QMessageBox.Yes: ev.accept()
+        if reply == QMessageBox.Yes: 
+            if self.config_matrix is not None:
+                config_file = os.path.join(os.path.join(os.getcwd(), "config"), "config.json")
+                with open (config_file, "w") as f: json.dump(self.config_matrix, f, indent=4)
+            ev.accept()
         else: ev.ignore()
 
 
