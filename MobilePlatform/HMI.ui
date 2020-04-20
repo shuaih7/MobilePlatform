@@ -10,6 +10,12 @@
     <height>1395</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <family>Segoe UI</family>
+    <pointsize>12</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>MobilePlatform</string>
   </property>
@@ -383,7 +389,7 @@
                <x>0</x>
                <y>0</y>
                <width>1264</width>
-               <height>943</height>
+               <height>921</height>
               </rect>
              </property>
              <widget class="MarkLabel" name="label">
@@ -564,8 +570,14 @@
      <x>0</x>
      <y>0</y>
      <width>1637</width>
-     <height>36</height>
+     <height>51</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Segoe UI</family>
+     <pointsize>12</pointsize>
+    </font>
    </property>
    <widget class="QMenu" name="menuSettings">
     <property name="title">
@@ -605,6 +617,12 @@
    <property name="text">
     <string>Open</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Segoe UI</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
    </property>
@@ -612,6 +630,12 @@
   <action name="actionExit">
    <property name="text">
     <string>Exit</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Segoe UI</family>
+     <pointsize>12</pointsize>
+    </font>
    </property>
    <property name="shortcut">
     <string>Ctrl+E</string>
@@ -621,6 +645,12 @@
    <property name="text">
     <string>Reinitialize</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Segoe UI</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
    <property name="shortcut">
     <string>Ctrl+R</string>
    </property>
@@ -628,6 +658,12 @@
   <action name="actionAdminSet">
    <property name="text">
     <string>Administrator Settings</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Segoe UI</family>
+     <pointsize>12</pointsize>
+    </font>
    </property>
    <property name="shortcut">
     <string>Ctrl+A</string>

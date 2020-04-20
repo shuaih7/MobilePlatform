@@ -55,8 +55,6 @@ class MainWindow(QMainWindow):
         self.wo_path = None
         self.image_save_path = None
         self.cur_operation = None
-
-        self.img_index = 0
         self.operator_name = None
         self.setTextMode()
 
@@ -214,18 +212,19 @@ class MainWindow(QMainWindow):
             ble_cmd = bytearray([3, self.config_matrix["BleOnDelay"]//20, 
                                  self.config_matrix["BleOffDelay"]//20, self.config_matrix["BleBrightness"]//20])
             self.ble.write(ble_cmd)
-        time.sleep(0.5) # Wait until the LED is ready
+        time.sleep(0.2) # Wait until the LED is ready 0.5s is an empirical number
         self.videoStart.emit(False)
         self.islive = False
         self.btn_cap.setText('Live')
         self.able_to_store = True
-        self.img_index += 1
 
     def save(self):
         #TODO: Use another thread to save the full image
         if self.islive or self.label.pixmap is None: return
         if self.able_to_store:
-            self.image_name = 'image_' + str(self.img_index) + '.png'
+            localtime = time.localtime(time.time())
+            time_string = str(localtime.tm_year)+"-"+str(localtime.tm_mon)+"-"+str(localtime.tm_mday)+"-"+str(localtime.tm_hour)+str(localtime.tm_min)+str(localtime.tm_sec)
+            self.image_name = self.part_number+"-"+self.process+"_"+time_string+".png"
             self.full_name = os.path.join(self.image_save_path, self.image_name)
             self.image_list.addItem(self.image_name)
             self.label.pixmap.save(self.full_name, "PNG", 100)
