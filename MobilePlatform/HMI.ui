@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1536</width>
-    <height>1304</height>
+    <width>1637</width>
+    <height>1395</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,7 +16,7 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
-     <layout class="QVBoxLayout" name="verticalLayout_5">
+     <layout class="QVBoxLayout" name="verticalLayout_5" stretch="1,20">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
@@ -26,6 +26,12 @@
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+            <pointsize>12</pointsize>
+           </font>
           </property>
           <property name="text">
            <string/>
@@ -45,6 +51,12 @@
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+            <pointsize>12</pointsize>
+           </font>
           </property>
           <property name="text">
            <string/>
@@ -68,6 +80,12 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
           <property name="text">
            <string/>
           </property>
@@ -87,15 +105,28 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <item>
-           <property name="text">
-            <string>-- Operator --</string>
-           </property>
-          </item>
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
          </widget>
         </item>
         <item>
          <widget class="QComboBox" name="line_process">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
           <item>
            <property name="text">
             <string>-- Process --</string>
@@ -136,19 +167,31 @@
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="2,9">
+       <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="3,12">
         <item>
-         <layout class="QVBoxLayout" name="verticalLayout_4" stretch="5,20,1">
+         <layout class="QVBoxLayout" name="verticalLayout_4" stretch="8,20,0">
           <property name="spacing">
            <number>10</number>
           </property>
           <item>
-           <layout class="QVBoxLayout" name="verticalLayout_3">
+           <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,0,0,0,0,0">
             <property name="spacing">
              <number>0</number>
             </property>
             <item>
              <widget class="QPushButton" name="btn_queue">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>12</pointsize>
+               </font>
+              </property>
               <property name="text">
                <string>QUEUE</string>
               </property>
@@ -165,6 +208,18 @@
             </item>
             <item>
              <widget class="QPushButton" name="btn_1070x">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>12</pointsize>
+               </font>
+              </property>
               <property name="text">
                <string>1070X</string>
               </property>
@@ -181,6 +236,18 @@
             </item>
             <item>
              <widget class="QPushButton" name="btn_1060x">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>12</pointsize>
+               </font>
+              </property>
               <property name="text">
                <string>1060X</string>
               </property>
@@ -194,6 +261,18 @@
             </item>
             <item>
              <widget class="QPushButton" name="btn_1030x">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>12</pointsize>
+               </font>
+              </property>
               <property name="text">
                <string>1030X</string>
               </property>
@@ -207,6 +286,18 @@
             </item>
             <item>
              <widget class="QPushButton" name="btn_cc">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>12</pointsize>
+               </font>
+              </property>
               <property name="text">
                <string>CC-118</string>
               </property>
@@ -220,6 +311,18 @@
             </item>
             <item>
              <widget class="QPushButton" name="btn_dry">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>12</pointsize>
+               </font>
+              </property>
               <property name="text">
                <string>DRY</string>
               </property>
@@ -234,10 +337,23 @@
            </layout>
           </item>
           <item>
-           <widget class="QListWidget" name="image_list"/>
+           <widget class="QListWidget" name="image_list">
+            <property name="font">
+             <font>
+              <family>Segoe UI</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+           </widget>
           </item>
           <item>
            <widget class="StatusLabel" name="status_label">
+            <property name="font">
+             <font>
+              <family>Segoe UI</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -246,7 +362,10 @@
          </layout>
         </item>
         <item>
-         <layout class="QVBoxLayout" name="verticalLayout_2" stretch="20,1,2">
+         <layout class="QVBoxLayout" name="verticalLayout_2" stretch="25,2,5">
+          <property name="spacing">
+           <number>0</number>
+          </property>
           <item>
            <widget class="QScrollArea" name="scrollArea">
             <property name="minimumSize">
@@ -263,8 +382,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>1210</width>
-               <height>904</height>
+               <width>1264</width>
+               <height>943</height>
               </rect>
              </property>
              <widget class="MarkLabel" name="label">
@@ -285,6 +404,9 @@
           </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QPushButton" name="btn_save">
               <property name="sizePolicy">
@@ -292,6 +414,12 @@
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>12</pointsize>
+               </font>
               </property>
               <property name="text">
                <string>Store</string>
@@ -306,6 +434,12 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>12</pointsize>
+               </font>
+              </property>
               <property name="text">
                <string>Del</string>
               </property>
@@ -319,6 +453,12 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>12</pointsize>
+               </font>
+              </property>
               <property name="text">
                <string>Live</string>
               </property>
@@ -327,9 +467,15 @@
            </layout>
           </item>
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,15">
+           <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,5">
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <item>
              <layout class="QVBoxLayout" name="verticalLayout">
+              <property name="spacing">
+               <number>0</number>
+              </property>
               <item>
                <widget class="QPushButton" name="btn_text">
                 <property name="sizePolicy">
@@ -337,6 +483,12 @@
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Segoe UI</family>
+                  <pointsize>12</pointsize>
+                 </font>
                 </property>
                 <property name="text">
                  <string>Text</string>
@@ -351,6 +503,12 @@
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
+                <property name="font">
+                 <font>
+                  <family>Segoe UI</family>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
                 <property name="text">
                  <string>Draw</string>
                 </property>
@@ -364,6 +522,12 @@
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
+                <property name="font">
+                 <font>
+                  <family>Segoe UI</family>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
                 <property name="text">
                  <string>Undo</string>
                 </property>
@@ -372,7 +536,14 @@
              </layout>
             </item>
             <item>
-             <widget class="QTextEdit" name="textEdit"/>
+             <widget class="QTextEdit" name="textEdit">
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>12</pointsize>
+               </font>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -392,7 +563,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1536</width>
+     <width>1637</width>
      <height>36</height>
     </rect>
    </property>
@@ -585,7 +756,7 @@
     </hint>
     <hint type="destinationlabel">
      <x>206</x>
-     <y>1311</y>
+     <y>1309</y>
     </hint>
    </hints>
   </connection>
@@ -601,7 +772,7 @@
     </hint>
     <hint type="destinationlabel">
      <x>107</x>
-     <y>1387</y>
+     <y>1309</y>
     </hint>
    </hints>
   </connection>
@@ -612,12 +783,12 @@
    <slot>op_1030x()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>218</x>
-     <y>243</y>
+     <x>240</x>
+     <y>350</y>
     </hint>
     <hint type="destinationlabel">
      <x>256</x>
-     <y>1517</y>
+     <y>1309</y>
     </hint>
    </hints>
   </connection>
@@ -628,12 +799,12 @@
    <slot>op_1060x()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>143</x>
-     <y>219</y>
+     <x>165</x>
+     <y>294</y>
     </hint>
     <hint type="destinationlabel">
      <x>227</x>
-     <y>1595</y>
+     <y>1309</y>
     </hint>
    </hints>
   </connection>
@@ -644,12 +815,12 @@
    <slot>op_cc()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>143</x>
-     <y>311</y>
+     <x>165</x>
+     <y>406</y>
     </hint>
     <hint type="destinationlabel">
      <x>131</x>
-     <y>1603</y>
+     <y>1309</y>
     </hint>
    </hints>
   </connection>
@@ -660,12 +831,12 @@
    <slot>op_dry()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>63</x>
-     <y>362</y>
+     <x>85</x>
+     <y>462</y>
     </hint>
     <hint type="destinationlabel">
      <x>118</x>
-     <y>1631</y>
+     <y>1309</y>
     </hint>
    </hints>
   </connection>
@@ -729,7 +900,7 @@
     </hint>
     <hint type="destinationlabel">
      <x>315</x>
-     <y>1631</y>
+     <y>1309</y>
     </hint>
    </hints>
   </connection>
@@ -745,7 +916,7 @@
     </hint>
     <hint type="destinationlabel">
      <x>477</x>
-     <y>1447</y>
+     <y>1309</y>
     </hint>
    </hints>
   </connection>
@@ -761,7 +932,7 @@
     </hint>
     <hint type="destinationlabel">
      <x>741</x>
-     <y>1623</y>
+     <y>1309</y>
     </hint>
    </hints>
   </connection>
@@ -777,7 +948,7 @@
     </hint>
     <hint type="destinationlabel">
      <x>1014</x>
-     <y>1405</y>
+     <y>1309</y>
     </hint>
    </hints>
   </connection>
@@ -793,7 +964,7 @@
     </hint>
     <hint type="destinationlabel">
      <x>1312</x>
-     <y>1410</y>
+     <y>1309</y>
     </hint>
    </hints>
   </connection>
@@ -809,7 +980,7 @@
     </hint>
     <hint type="destinationlabel">
      <x>91</x>
-     <y>1336</y>
+     <y>1309</y>
     </hint>
    </hints>
   </connection>

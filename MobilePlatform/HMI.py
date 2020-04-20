@@ -3,7 +3,7 @@
 
 """
 Created on 03.17.2020
-Updated on 04.19.2020
+Updated on 04.20.2020
 
 Author: 212780558
 """
@@ -41,6 +41,7 @@ class MainWindow(QMainWindow):
         self.camIsConnected = False
         self.videoThread = None  
         self.camMonitorThread = None
+        self.setBtnEnabled(False)
         
         self.bleIsConnected = False
         self.ble = bleWorker(ADDRESS, CMD_UUID, STA_UUID)
@@ -149,28 +150,38 @@ class MainWindow(QMainWindow):
 
         operator_names = self.config_matrix["Names"]
         operator_levels = self.config_matrix["Levels"]
+        self.line_name.addItem("--Operator --")
         for name in operator_names: self.line_name.addItem(name)
         self.passDialog.adminWidget.initConfigurations(self.config_matrix)
         
-    @pyqtSlot(list)
-    def updateOperatorList(self, operator_info):
+    @pyqtSlot(bool)
+    def updateOperatorList(self, updateRequested):
+        operator_names = []
+        operator_levels = []
         self.line_name.clear()
         self.line_name.addItem("-- Operator --")
-        for name in operator_info[0]: self.line_name.addItem(name)
-        if self.config_matrix is not None: 
-            self.config_matrix["Names"] = operator_info[0]
-            self.config_matrix["Levels"] = operator_info[1]
             
-    @pyqtSlot(int)
-    def updateBleSettings(self, index):
-        cfg_type = index // 1000
-        cfg_cmd  = index % 1000
-        if cfg_type == 0:
-            pass
-        elif cfg_type == 1:
-            pass
-        elif cfg_type == 2:
-            pass
+        for i in range(self.passDialog.adminWidget.op_list.count()):
+            name = self.passDialog.adminWidget.op_list.item(i).text()
+            level = self.passDialog.adminWidget.level_list.item(i).text()
+            if name == "User Name":
+                self.passDialog.adminWidget.op_list.takeItem(i)
+                self.passDialog.adminWidget.level_list.takeItem(i)
+            else:
+                self.line_name.addItem(name)
+                operator_names.append(name)
+                operator_levels.append(level)
+            
+        if self.config_matrix is not None: # Update the config matrix
+            self.config_matrix["Names"] = operator_names
+            self.config_matrix["Levels"] = operator_levels 
+        self.resetInputs()
+            
+    @pyqtSlot(bool)
+    def updateBleSettings(self, updateRequested):
+        self.config_matrix["BleBrightness"] = self.passDialog.adminWidget.bright_slider.value()
+        self.config_matrix["BleOnDelay"] = int(self.passDialog.adminWidget.line_ondelay.text())
+        self.config_matrix["BleOffDelay"] = int(self.passDialog.adminWidget.line_offdelay.text())
 
     def setBtnEnabled(self, enabled):
         self.btn_cap.setEnabled(enabled)
@@ -199,8 +210,11 @@ class MainWindow(QMainWindow):
             self.videoThread.start()
 
     def capture(self): # Will be triggered only if the live function is called
-        if self.bleIsConnected: self.ble.write(b"\x03\x03\x12\x41")
-        #time.sleep(0.05) # Wait until the LED is ready
+        if self.config_matrix is not None and self.bleIsConnected: 
+            ble_cmd = bytearray([3, self.config_matrix["BleOnDelay"]//20, 
+                                 self.config_matrix["BleOffDelay"]//20, self.config_matrix["BleBrightness"]//20])
+            self.ble.write(ble_cmd)
+        time.sleep(0.5) # Wait until the LED is ready
         self.videoStart.emit(False)
         self.islive = False
         self.btn_cap.setText('Live')

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>651</width>
-    <height>249</height>
+    <width>709</width>
+    <height>271</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,13 +15,32 @@
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="0" column="0">
-    <layout class="QVBoxLayout" name="verticalLayout" stretch="2,2,2,2">
+    <layout class="QVBoxLayout" name="verticalLayout" stretch="3,1,2,2,3">
      <item>
       <widget class="QLabel" name="main_label">
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>Please enter the administrator password:</string>
        </property>
       </widget>
+     </item>
+     <item>
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
      </item>
      <item>
       <widget class="QLineEdit" name="passEdit">
@@ -31,10 +50,22 @@
          <height>50</height>
         </size>
        </property>
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
       </widget>
      </item>
      <item>
       <widget class="QLabel" name="remind_label">
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -47,6 +78,12 @@
        </property>
        <item>
         <widget class="QPushButton" name="btn_ok">
+         <property name="font">
+          <font>
+           <family>Segoe UI</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>OK</string>
          </property>
@@ -54,6 +91,12 @@
        </item>
        <item>
         <widget class="QPushButton" name="btn_cancel">
+         <property name="font">
+          <font>
+           <family>Segoe UI</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>Cancel</string>
          </property>

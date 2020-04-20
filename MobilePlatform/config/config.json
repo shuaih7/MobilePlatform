@@ -2,14 +2,16 @@
     "Names": [
         "Connie Fu",
         "Jaz Guo",
-        "Jay Han"
+        "Jay Han",
+        "Shuai Hao"
     ],
     "Levels": [
         "Administrator",
         "User",
+        "User",
         "User"
     ],
-    "BleBrightness": 65,
-    "BleOnDelay": 80,
-    "BleOffDelay": 80
+    "BleBrightness": 46,
+    "BleOnDelay": 0,
+    "BleOffDelay": 400
 }

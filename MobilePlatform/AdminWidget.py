@@ -16,16 +16,16 @@ from PyQt5.QtWidgets import QTabWidget, QFileDialog
 
 class AdminWidget(QTabWidget):
     camConfigRequest = pyqtSignal(str)
-    opListUpdateRequest = pyqtSignal(list)
-    bleSettingRequest = pyqtSignal(int)
+    opListUpdateRequest = pyqtSignal(bool)
+    bleSettingRequest = pyqtSignal(bool)
     
     def __init__(self):
         super(AdminWidget, self).__init__()
         loadUi("AdminWidget.ui", self)
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
         self.config_matrix = None
-        self.line_ondelay.setValidator(QIntValidator(0,999))
-        self.line_offdelay.setValidator(QIntValidator(0,999))
+        self.line_ondelay.setValidator(QIntValidator(0,9999))
+        self.line_offdelay.setValidator(QIntValidator(0,9999))
         
     def initConfigurations(self, config_matrix):
         self.config_matrix = config_matrix
@@ -41,14 +41,14 @@ class AdminWidget(QTabWidget):
 
             item = self.op_list.item(self.op_list.count()-1)
             item.setFlags(item.flags() | Qt.ItemIsEditable)
-                
-    def updateOperatorList(self):
-        operator_info = [[],[]]
-        for i in range(self.op_list.count()-1):
-            operator_info[0].append(self.op_list.item(i).text())
-            operator_info[1].append(self.level_list.item(i).text())
-        self.opListUpdateRequest.emit(operator_info)
-                   
+        
+        ble_brightness = config_matrix["BleBrightness"]
+        ble_ondelay = config_matrix["BleOnDelay"]
+        ble_offdelay = config_matrix["BleOffDelay"]
+        self.bright_slider.setValue(ble_brightness)
+        self.line_ondelay.setText(str(ble_ondelay))
+        self.line_offdelay.setText(str(ble_offdelay))
+
     def addUser(self):
         self.op_list.addItem("User Name")
         item = self.op_list.item(self.op_list.count()-1)
@@ -70,18 +70,23 @@ class AdminWidget(QTabWidget):
         if config_file is not None: self.camConfigRequest.emit(config_file[0])
         
     def configBleBrightness(self):
-        pass
+        bleBrightnessValue = self.bright_slider.value()
+        self.bleSettingRequest.emit(bleBrightnessValue)
         
     def configBleOnDelay(self):
         bleOnDelayValue = int(self.line_ondelay.text())
-        bleOnDelayValue = min(bleOnDelayValue, 100)
-        index = 1000 + bleOnDelayValue
-        self.bleSettingRequest.emit(index)
+        if bleOnDelayValue > 255*20: 
+            bleOnDelayValue = 255*20
+            self.line_ondelay.setText(str(255*20))
         
     def configBleOffDelay(self):
         bleOffDelayValue = int(self.line_offdelay.text())
-        bleOffDelayValue = min(bleOffDelayValue, 100)
-        index = 2000 + bleOffDelayValue
-        self.bleSettingRequest.emit(index)
+        if bleOffDelayValue > 255*20: 
+            bleOffDelayValue = 255*20
+            self.line_offdelay.setText(str(255*20))
+        
+    def closeEvent(self, ev):
+        self.opListUpdateRequest.emit(True)
+        self.bleSettingRequest.emit(True)
 
         
