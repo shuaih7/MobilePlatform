@@ -11,9 +11,14 @@ Author: 212780558
 import os, sys
 import json, time, glob
 from pypylon import genicam
-from basler_camera import Basler
-from PassDialog import PassDialog
-from Workers import pylonWorker, bleWorker, cameraMonitor, bleMonitor
+try: 
+    from .basler_camera import Basler
+    from .PassDialog import PassDialog
+    from .Workers import pylonWorker, bleWorker, cameraMonitor, bleMonitor
+except Exception as expt: 
+    from basler_camera import Basler
+    from PassDialog import PassDialog
+    from Workers import pylonWorker, bleWorker, cameraMonitor, bleMonitor
 
 from PyQt5.uic import loadUi
 from PyQt5 import QtGui, QtWidgets

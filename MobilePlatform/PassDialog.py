@@ -12,7 +12,8 @@ import sys
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QDialog
 from PyQt5.uic import loadUi
-from AdminWidget import AdminWidget
+try: from .AdminWidget import AdminWidget
+except Exception as expt: from AdminWidget import AdminWidget
 
 
 class PassDialog(QDialog):

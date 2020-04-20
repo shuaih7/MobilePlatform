@@ -10,10 +10,16 @@ Author: 212780558
 
 import sys
 from PyQt5.QtWidgets import QApplication
+app = QApplication(sys.argv)
+try: from .HMI import MainWindow
+except Exception as expt: from HMI import MainWindow
+
+
+def main():
+    Window = MainWindow()
+    Window.showMaximized()
+    sys.exit(app.exec_())
+
 
 if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    import HMI
-    MainWindow = HMI.MainWindow()
-    MainWindow.showMaximized()
-    sys.exit(app.exec_())
+    main()
