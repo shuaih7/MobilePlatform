@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1637</width>
-    <height>1395</height>
+    <width>808</width>
+    <height>738</height>
    </rect>
   </property>
   <property name="font">
@@ -177,7 +177,7 @@
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_4" stretch="8,20,0">
           <property name="spacing">
-           <number>10</number>
+           <number>5</number>
           </property>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,0,0,0,0,0">
@@ -376,8 +376,8 @@
            <widget class="QScrollArea" name="scrollArea">
             <property name="minimumSize">
              <size>
-              <width>1100</width>
-              <height>700</height>
+              <width>600</width>
+              <height>400</height>
              </size>
             </property>
             <property name="widgetResizable">
@@ -388,8 +388,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>1264</width>
-               <height>921</height>
+               <width>620</width>
+               <height>489</height>
               </rect>
              </property>
              <widget class="MarkLabel" name="label">
@@ -397,8 +397,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>1201</width>
-                <height>901</height>
+                <width>622</width>
+                <height>489</height>
                </rect>
               </property>
               <property name="text">
@@ -569,8 +569,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1637</width>
-     <height>51</height>
+     <width>808</width>
+     <height>27</height>
     </rect>
    </property>
    <property name="font">

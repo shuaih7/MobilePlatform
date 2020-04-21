@@ -8,7 +8,11 @@ Updated on 04.13.2020
 Author: 212780558
 '''
 
-import sys
+import os, sys
+abs_path = os.path.abspath(os.path.dirname(__file__))
+sys.path.append(abs_path)
+
+
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QDialog
 from PyQt5.uic import loadUi
@@ -19,7 +23,7 @@ except Exception as expt: from AdminWidget import AdminWidget
 class PassDialog(QDialog):
     def __init__(self):
         super(PassDialog, self).__init__()
-        loadUi("PassDialog.ui", self)
+        loadUi(os.path.join(os.path.abspath(os.path.dirname(__file__)), "PassDialog.ui"), self)
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
         self.password = "123456"
         self.adminWidget = AdminWidget()

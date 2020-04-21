@@ -93,7 +93,7 @@ class Basler:
         self.camera = None
         self.viewer = None
         self.configuration = None
-        self.config_path = os.path.join(os.getcwd(), "config")
+        self.config_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), "config")
         if not os.path.exists(self.config_path): os.mkdir(self.config_path)
         self.update_device()
 

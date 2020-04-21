@@ -8,7 +8,7 @@ Updated on 04.17.2020
 Author: 212780558
 '''
 
-import time
+import time, cv2
 import asyncio
 import functools
 import numpy as np
@@ -79,6 +79,7 @@ class pylonWorker(QThread):
                     img = image.GetArray()
                     
                     rgbImage = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+                    self._label.rgbImage = rgbImage
                     h, w, ch = rgbImage.shape
                     bytesPerLine = ch*w
                     convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
@@ -152,6 +153,21 @@ class bleWorker(object):
     async def disconnectAsync(self):
         try: await self.client.connect()
         except Exception as e: print(e)
+
+
+class saveWorker(QThread):
+    saveFinished = pyqtSignal(str)
+
+    def __init__(self, save_name, label, parent=None):
+        super(saveWorker, self).__init__(parent)
+        self.save_name = save_name
+        self.label = label
+
+    def run(self):
+        cv2.imwrite(self.save_name, self.label.rgbImage)
+        #self.label.pixmap.save(self.save_name, "BMP", 100)
+        _, image_name = os.path.split(self.save_name)
+        self.saveFinished.emit(image_name)
 
 
 class cameraMonitor(QThread):

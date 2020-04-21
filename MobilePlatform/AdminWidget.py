@@ -21,7 +21,7 @@ class AdminWidget(QTabWidget):
     
     def __init__(self):
         super(AdminWidget, self).__init__()
-        loadUi("AdminWidget.ui", self)
+        loadUi(os.path.join(os.path.abspath(os.path.dirname(__file__)), "AdminWidget.ui"), self)
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
         self.config_matrix = None
         self.line_ondelay.setValidator(QIntValidator(0,9999))

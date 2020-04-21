@@ -3,7 +3,7 @@
 
 """
 Created on 03.17.2020
-Updated on 04.20.2020
+Updated on 04.21.2020
 
 Author: 212780558
 """
@@ -11,14 +11,18 @@ Author: 212780558
 import os, sys
 import json, time, glob
 from pypylon import genicam
+
+abs_path = os.path.abspath(os.path.dirname(__file__))
+sys.path.append(abs_path)
+
 try: 
     from .basler_camera import Basler
     from .PassDialog import PassDialog
-    from .Workers import pylonWorker, bleWorker, cameraMonitor, bleMonitor
+    from .Workers import pylonWorker, bleWorker, saveWorker, cameraMonitor, bleMonitor
 except Exception as expt: 
     from basler_camera import Basler
     from PassDialog import PassDialog
-    from Workers import pylonWorker, bleWorker, cameraMonitor, bleMonitor
+    from Workers import pylonWorker, bleWorker, saveWorker, cameraMonitor, bleMonitor
 
 from PyQt5.uic import loadUi
 from PyQt5 import QtGui, QtWidgets
@@ -37,7 +41,7 @@ class MainWindow(QMainWindow):
     
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
-        loadUi("HMI.ui", self)
+        loadUi(os.path.join(os.path.abspath(os.path.dirname(__file__)), "HMI.ui"), self)
 
         ######--- Device Settings ---######
         self.basler = None      
@@ -56,7 +60,7 @@ class MainWindow(QMainWindow):
         # TODO: rearrange the names ...
         self.image_name = None # Pure image name without path
         self.full_name  = None # Used to save the markings 
-        self.parent_path = os.path.join(os.getcwd(), "data") # Parent path for all of the images & notation files
+        self.parent_path = r"D:" #os.path.join(os.getcwd(), "data") # Parent path for all of the images & notation files
         self.wo_path = None
         self.image_save_path = None
         self.cur_operation = None
@@ -70,7 +74,8 @@ class MainWindow(QMainWindow):
         self.label.installEventFilter(self)
         self.label.grabGesture(Qt.PinchGesture)
         self.setMarkBtnEnabled(False)
-        
+
+        self.saveThread = None
         self.status_label.update()
         self.passDialog = PassDialog()
         self.passDialog.adminWidget.camConfigRequest.connect(self.camConfigReceiver)
@@ -148,7 +153,7 @@ class MainWindow(QMainWindow):
         self.basler.load_configuration(cfg_file=config_file)
         
     def loadConfigurations(self):
-        config_file = os.path.join(os.path.join(os.getcwd(), "config"), "config.json")
+        config_file = os.path.join(os.path.join(os.path.abspath(os.path.dirname(__file__)), "config"), "config.json")
         with open (config_file, "r") as f: self.config_matrix = json.load(f)
 
         operator_names = self.config_matrix["Names"]
@@ -217,24 +222,29 @@ class MainWindow(QMainWindow):
             ble_cmd = bytearray([3, self.config_matrix["BleOnDelay"]//20, 
                                  self.config_matrix["BleOffDelay"]//20, self.config_matrix["BleBrightness"]//20])
             self.ble.write(ble_cmd)
-        time.sleep(0.2) # Wait until the LED is ready 0.5s is an empirical number
+        time.sleep(0.1) # Wait until the LED is ready 0.1s is an empirical number
         self.videoStart.emit(False)
         self.islive = False
         self.btn_cap.setText('Live')
         self.able_to_store = True
 
     def save(self):
-        #TODO: Use another thread to save the full image
         if self.islive or self.label.pixmap is None: return
         if self.able_to_store:
             localtime = time.localtime(time.time())
             time_string = str(localtime.tm_year)+"-"+str(localtime.tm_mon)+"-"+str(localtime.tm_mday)+"-"+str(localtime.tm_hour)+str(localtime.tm_min)+str(localtime.tm_sec)
-            self.image_name = self.part_number+"-"+self.process+"_"+time_string+".png"
+            self.image_name = self.part_number+"-"+self.process+"_"+time_string+".bmp"
             self.full_name = os.path.join(self.image_save_path, self.image_name)
-            self.image_list.addItem(self.image_name)
-            self.label.pixmap.save(self.full_name, "PNG", 100)
             self.able_to_store = False
-            self.label.mode = 'text' # After image saving, the marking buttons are enabled
+            self.saveThread = saveWorker(self.full_name, self.label)
+            self.saveThread.saveFinished.connect(self.saveStatusReceiver)
+            self.saveThread.start()
+
+    @pyqtSlot(str)
+    def saveStatusReceiver(self, image_name):
+        self.image_list.addItem(image_name)
+        self.image_list.setCurrentRow(self.image_list.count()-1)
+        self.label.mode = 'text' # After image saving, the marking buttons are enabled
 
     def delete(self):
         if self.islive: return
@@ -355,7 +365,7 @@ class MainWindow(QMainWindow):
 
     def setImageList(self):
         self.image_list.clear() # Clear all the current items before processing
-        img_file_list = glob.glob(self.image_save_path + r"/*.png")
+        img_file_list = glob.glob(self.image_save_path + r"/*.bmp")
         for img_file in img_file_list:
             _, fname = os.path.split(img_file)
             self.image_list.addItem(fname)
@@ -602,7 +612,7 @@ class MainWindow(QMainWindow):
 
         if reply == QMessageBox.Yes: 
             if self.config_matrix is not None:
-                config_file = os.path.join(os.path.join(os.getcwd(), "config"), "config.json")
+                config_file = os.path.join(os.path.join(os.path.abspath(os.path.dirname(__file__)), "config"), "config.json")
                 with open (config_file, "w") as f: json.dump(self.config_matrix, f, indent=4)
             ev.accept()
         else: ev.ignore()

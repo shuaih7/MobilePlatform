@@ -20,6 +20,7 @@ class MarkLabel(QLabel):
         self.scale_min = 0.3        # Minimum value of the scale factor
         self.scale_max = 3.0        # Maximum value of the scale factor
         self.pixmap = None
+        self.rgbImage = None
         self.scaled_pixmap = None
         self.offx = 0
         self.offy = 0

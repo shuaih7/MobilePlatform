@@ -3,7 +3,7 @@
 
 '''
 Created on 01.04.2020
-Updated on 04.17.2020
+Updated on 04.21.2020
 
 Author: 212780558
 '''
@@ -19,7 +19,7 @@ class StatusLabel(QLabel):
         super(StatusLabel, self).__init__(parent)
         self.camIsConnected = False
         self.bleIsConnected = False
-        self.diameter = int(0.9 * min(self.width(), self.height()))
+        self.diameter = int(0.8 * min(self.width(), self.height()))
         self.status_color = Qt.red
         
     def updateConnectStatus(self, cam_status=None, ble_status=None):
@@ -32,7 +32,7 @@ class StatusLabel(QLabel):
     def paintEvent(self, event):
         painter = QPainter(self)
         painter.setBrush(QBrush(self.status_color, Qt.SolidPattern))
-        painter.drawEllipse(self.width()*0.5, self.height()*0.45, self.diameter, self.diameter)
+        painter.drawEllipse(self.width()*0.5, self.height()*0.35, self.diameter, self.diameter)
                      
             
 
