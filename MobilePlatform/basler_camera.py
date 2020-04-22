@@ -110,7 +110,12 @@ class Basler:
             print("No camera was found, please check the USB connection.")
 
         if self.info is not None:
-            self.camera = pylon.InstantCamera(pylon.TlFactory.GetInstance().CreateDevice(self.info))
+            try: self.camera = pylon.InstantCamera(pylon.TlFactory.GetInstance().CreateDevice(self.info))
+            except Exception as expt:
+                print(expt)
+                self.camera = None
+                self.info = None
+                return
             self.camera.Open()
             self.load_configuration() # Load the default pylon configuration
             self.viewer = BaslerOpenCVViewer(self.camera)
@@ -122,7 +127,7 @@ class Basler:
     """
     def load_configuration(self, cfg_file=None):
         if cfg_file is None:
-            cfg_path = os.path.join(os.getcwd(), "config")
+            cfg_path = self.config_path
             cfg_file = os.path.join(cfg_path, "pylon_config.fps")
         if not os.path.isfile:
             print("Could not find the pylon configuration file", cfg_file)

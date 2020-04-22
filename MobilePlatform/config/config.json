@@ -11,7 +11,7 @@
         "User",
         "User"
     ],
-    "BleBrightness": 46,
+    "BleBrightness": 39,
     "BleOnDelay": 0,
-    "BleOffDelay": 300
+    "BleOffDelay": 2000
 }

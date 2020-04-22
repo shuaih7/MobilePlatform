@@ -66,8 +66,8 @@ class pylonWorker(QThread):
         self._camera.StopGrabbing()
         try:
             self._camera.StartGrabbing(self.grab_strategy)
-        except genicam.RuntimeException:
-            self.pylonConnectRequest.emit(False)
+        except genicam.RuntimeException as expt:
+            print(expt)
         
         try:
             while(self._camera.IsGrabbing() and self.videoStart):
@@ -86,6 +86,7 @@ class pylonWorker(QThread):
 
                     self._label.pixmap = QPixmap.fromImage(convertToQtFormat)
                     self._label.update()
+
 
                 grab_result.Release()
                 
@@ -195,11 +196,18 @@ class bleMonitor(QThread):
         self.update_frequency = 1
 
     def run(self):
+        pass
+        
         if self.ble is None: return
         sleep_time = 1.0 / float(self.update_frequency)
+        bleIsConnected = True
         
-        while self.ble.is_connected(): time.sleep(sleep_time)
+        while bleIsConnected:
+            time.sleep(sleep_time)
+            try: bleIsConnected = self.ble.is_connected()
+            except RuntimeError as expt: print(expt)
         if not self.ble.is_connected(): self.bleStatus.emit(False)
+    
         
 
 

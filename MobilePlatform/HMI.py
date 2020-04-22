@@ -204,6 +204,8 @@ class MainWindow(QMainWindow):
         if self.islive: self.capture()
         else:
             self.islive = True
+            try: self.ble.write(bytearray([1, self.config_matrix["BleBrightness"]]))
+            except Exception as expt: print(expt)
             self.jsonOperation("dump") # Dump the markings and the comments
             self.label.mode = None     # Set the label mode to None
             self.resetMarkings()
@@ -218,15 +220,19 @@ class MainWindow(QMainWindow):
             self.videoThread.start()
 
     def capture(self): # Will be triggered only if the live function is called
+        """
         if self.config_matrix is not None and self.bleIsConnected: 
             ble_cmd = bytearray([3, self.config_matrix["BleOnDelay"]//20, 
-                                 self.config_matrix["BleOffDelay"]//20, self.config_matrix["BleBrightness"]//20])
+                                 self.config_matrix["BleOffDelay"]//20, self.config_matrix["BleBrightness"]])
             self.ble.write(ble_cmd)
-        time.sleep(0.1) # Wait until the LED is ready 0.1s is an empirical number
+        """
+        #time.sleep(0.25) # Wait until the LED is ready 0.1s is an empirical number
         self.videoStart.emit(False)
         self.islive = False
         self.btn_cap.setText('Live')
         self.able_to_store = True
+        try: self.ble.write(b"\x02")
+        except Exception as expt: print(expt)
 
     def save(self):
         if self.islive or self.label.pixmap is None: return
@@ -248,6 +254,15 @@ class MainWindow(QMainWindow):
 
     def delete(self):
         if self.islive: return
+
+        reply = QMessageBox.question(
+            self,
+            "Delete Confirm",
+            "Are you sure to delete this file?",
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.No)
+        if reply == QMessageBox.No: return
+        
         cur_index = self.image_list.currentRow()
         self.image_list.takeItem(cur_index)
 

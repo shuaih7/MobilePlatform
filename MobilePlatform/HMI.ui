@@ -691,8 +691,8 @@
    <slot>live()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1478</x>
-     <y>1068</y>
+     <x>794</x>
+     <y>606</y>
     </hint>
     <hint type="destinationlabel">
      <x>1295</x>
@@ -707,8 +707,8 @@
    <slot>save()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>648</x>
-     <y>1068</y>
+     <x>381</x>
+     <y>606</y>
     </hint>
     <hint type="destinationlabel">
      <x>750</x>
@@ -723,8 +723,8 @@
    <slot>delete()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1064</x>
-     <y>1068</y>
+     <x>587</x>
+     <y>606</y>
     </hint>
     <hint type="destinationlabel">
      <x>885</x>
@@ -739,8 +739,8 @@
    <slot>setTextMode()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>431</x>
-     <y>1129</y>
+     <x>276</x>
+     <y>640</y>
     </hint>
     <hint type="destinationlabel">
      <x>319</x>
@@ -755,8 +755,8 @@
    <slot>setDrawMode()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>431</x>
-     <y>1187</y>
+     <x>276</x>
+     <y>672</y>
     </hint>
     <hint type="destinationlabel">
      <x>295</x>
@@ -771,8 +771,8 @@
    <slot>undo()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>431</x>
-     <y>1245</y>
+     <x>276</x>
+     <y>703</y>
     </hint>
     <hint type="destinationlabel">
      <x>246</x>
@@ -787,8 +787,8 @@
    <slot>op_queue()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>175</x>
-     <y>133</y>
+     <x>164</x>
+     <y>106</y>
     </hint>
     <hint type="destinationlabel">
      <x>206</x>
@@ -803,8 +803,8 @@
    <slot>op_1070x()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>135</x>
-     <y>183</y>
+     <x>148</x>
+     <y>135</y>
     </hint>
     <hint type="destinationlabel">
      <x>107</x>
@@ -819,8 +819,8 @@
    <slot>op_1030x()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>240</x>
-     <y>350</y>
+     <x>164</x>
+     <y>193</y>
     </hint>
     <hint type="destinationlabel">
      <x>256</x>
@@ -835,8 +835,8 @@
    <slot>op_1060x()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>165</x>
-     <y>294</y>
+     <x>164</x>
+     <y>164</y>
     </hint>
     <hint type="destinationlabel">
      <x>227</x>
@@ -851,8 +851,8 @@
    <slot>op_cc()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>165</x>
-     <y>406</y>
+     <x>164</x>
+     <y>222</y>
     </hint>
     <hint type="destinationlabel">
      <x>131</x>
@@ -867,8 +867,8 @@
    <slot>op_dry()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>85</x>
-     <y>462</y>
+     <x>98</x>
+     <y>251</y>
     </hint>
     <hint type="destinationlabel">
      <x>118</x>
@@ -931,8 +931,8 @@
    <slot>getWorkOrder()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>252</x>
-     <y>82</y>
+     <x>162</x>
+     <y>67</y>
     </hint>
     <hint type="destinationlabel">
      <x>315</x>
@@ -947,8 +947,8 @@
    <slot>getPartNumber()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>472</x>
-     <y>86</y>
+     <x>321</x>
+     <y>67</y>
     </hint>
     <hint type="destinationlabel">
      <x>477</x>
@@ -963,8 +963,8 @@
    <slot>getSerialNumber()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>785</x>
-     <y>79</y>
+     <x>479</x>
+     <y>67</y>
     </hint>
     <hint type="destinationlabel">
      <x>741</x>
@@ -979,8 +979,8 @@
    <slot>getOperatorName()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1121</x>
-     <y>72</y>
+     <x>638</x>
+     <y>67</y>
     </hint>
     <hint type="destinationlabel">
      <x>1014</x>
@@ -995,27 +995,11 @@
    <slot>getProcess()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1355</x>
-     <y>78</y>
+     <x>796</x>
+     <y>67</y>
     </hint>
     <hint type="destinationlabel">
      <x>1312</x>
-     <y>1309</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>image_list</sender>
-   <signal>activated(QModelIndex)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>listSelect()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>91</x>
-     <y>1137</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>91</x>
      <y>1309</y>
     </hint>
    </hints>
@@ -1033,6 +1017,22 @@
     <hint type="destinationlabel">
      <x>767</x>
      <y>651</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>image_list</sender>
+   <signal>clicked(QModelIndex)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>listSelect()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>18</x>
+     <y>637</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>12</x>
+     <y>807</y>
     </hint>
    </hints>
   </connection>
